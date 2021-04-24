@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+<head>
+<title>TMWebRock Examples</title>
+<meta charset='utf-8'>
+<script src='jquery/jquery.js'></script>
+<script>
+function addItem()
+{
+alert("addItem got called");
+var code=$("#cd").val();
+var name=$("#nm").val();
+alert("code"+code+" name "+name);
+var item={
+"code" : code,
+"name" :name
+};
+$.post("schoolService/student/add",JSON.stringify(item),function(data){ alert(data) });
+}
+</script>
+</head>
+<body>
+HELO
+Code <input type="text" name="cd" id="cd"> <br>
+Name <input type="text" name="nm" id="nm">
+<button type='button' onclick='addItem()'>GET</button>
+</body>
+</html>

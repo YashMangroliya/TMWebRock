@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+<head>
+<title>TMWebRock Examples</title>
+<meta charset='utf-8'>
+<script src='jquery/jquery.js'></script>
+<script src='jsFile?name=abcd.js'></script>
+<script>
+function addStudent()
+{
+var rollNumber=$("#addForm input[name=rollNumber]").val();
+var name=$("#addForm input[name=name]").val();
+var gender=$("#addForm input[name='gender']:checked").val();
+var student=new Student();
+student.rollNumber=rollNumber;
+student.name=name;
+student.gender=gender;
+var studentService=new StudentService();
+var prm=studentService.add(student);
+prm.then(function(){
+alert("Student added.");
+},function(error){
+alert(error);
+});
+}
+
+function updateStudent()
+{
+var rollNumber=$("#updateForm input[name=rollNumber]").val();
+var name=$("#updateForm input[name=name]").val();
+var gender=$("#updateForm input[name='gender']:checked").val();
+var student=new Student();
+student.rollNumber=rollNumber;
+student.name=name;
+student.gender=gender;
+var studentService=new StudentService();
+var prm=studentService.update(student);
+prm.then(function(){
+alert("Student updated.");
+},function(error){
+alert(error);
+});
+}
+
+function deleteStudent()
+{
+var rollNumber=$("#deleteForm input[name=rollNumber]").val();
+var studentService=new StudentService();
+var prm=studentService.delete(parseInt(rollNumber));
+prm.then(function(){
+alert("Student Deleted.");
+},function(error){
+alert(error);
+});
+}
+
+function getAll()
+{
+var prm=new StudentService().getAll();
+prm.then(function(data){
+var tablebody=$("#tbl tbody");
+var row;
+var data;
+var sno=1;
+for(d of data)
+{
+row=$("<tr></tr>");
+data=$("<td>"+sno+"</td>");
+row.append(data);
+data=$("<td>"+d.rollNumber+"</td>");
+row.append(data);
+data=$("<td>"+d.name+"</td>");
+row.append(data);
+data=$("<td>"+d.gender+"</td>");
+row.append(data);
+tablebody.append(row);
+sno++;
+}
+},function(error){alert(error)});
+}
+
+function getByRollNumber()
+{
+var rollNumber=$("#getByRollNumberForm input[name=rollNumber]").val();
+var prm=new StudentService().getByRollNumber(parseInt(rollNumber));
+prm.then(function(data){
+alert("Roll Number: "+data.rollNumber+", Name: "+data.name+", Gender: "+data.gender)},function(error){alert(error)});
+}
+</script>
+</head>
+<body>
+<form id="addForm">
+<h2>Student Services</h2>
+ADD FORM<br>
+Roll Number <input type='text' name='rollNumber' id='rollNumber'><br>
+Name <input type='text' name='name' id='name'><br>
+Gender
+Male<input type='radio' name='gender' id='male' value='M'>
+Female<input type='radio' name='gender' id='female' value='F'>
+<button type='button' onclick='addStudent()'>Add</button>
+</form>
+<hr>
+<form id='updateForm'>
+UPDATE FORM<br>
+Roll Number <input type='text' name='rollNumber' id='rollNumber'><br>
+Name <input type='text' name='name' id='name'><br>
+Gender
+Male<input type='radio' name='gender' id='male' value='M'>
+Female<input type='radio' name='gender' id='female' value='F'>
+<button type='button' onclick='updateStudent()'>Update</button>
+</form>
+<hr>
+<form id='deleteForm'>
+DELETE FORM<br>
+Roll Number <input type='text' name='rollNumber' id='rollNumber'><br>
+<button type='button' onclick='deleteStudent()'>Delete</button>
+</form>
+<hr>
+<table id='tbl' border='1' style='border-collapse: collapse'>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Roll Number</th>
+<th>Name</th>
+<th>Gender</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<button type='button' onclick='getAll()'>Get All</button>
+<hr>
+GET BY ROLL NUMBER<br>
+<form id='getByRollNumberForm'>
+Roll Number 
+<input type='text' name='rollNumber' id='rollNumber'>
+<button type='button' onclick='getByRollNumber()'>Get</button>
+</form>
+</body>
+</html>

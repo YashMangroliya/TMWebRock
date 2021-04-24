@@ -1,0 +1,1 @@
+javac -classpath c:\tomcat9\lib\*;. *.java
